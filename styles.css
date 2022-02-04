@@ -1,0 +1,45 @@
+html.dark-theme,
+body.dark-theme {
+  --text-color: #dcdcdc;
+  --bkg-color: #292929;
+}
+
+html,
+body {
+  background: var(--bkg-color) !important;
+}
+
+html,
+body,
+h1,
+p,
+html.dark-theme *:not(input) {
+  color: var(--text-color) !important;
+}
+
+html.dark-theme a[ping]:link,
+html.dark-theme :link:not(cite) {
+  color: #8db2e5 !important;
+}
+
+html.dark-theme a:visited {
+  color: #d248ea !important;
+}
+
+html.dark-theme cite,
+html.dark-theme a:link,
+html.dark-theme a:visited {
+  color: #92de92 !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  /* defaults to dark theme */
+  body {
+    --text-color: #fff;
+    --bkg-color: #292929;
+  }
+  body.light-theme {
+    --text-color: #222;
+    --bkg-color: #fff;
+  }
+}
