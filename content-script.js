@@ -1,20 +1,18 @@
-// const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
+//Handle Icon change if there is a theme in LocalStorage
+if (localStorage.getItem("theme")) {
+  const theme = setPageDarkTheme();
+  chrome.runtime.sendMessage({
+    action: "updateIcon",
+    value: theme,
+  });
+}
 
-// let currentTheme = localStorage.getItem("theme");
-// if (currentTheme == "dark") {
-//   document.body.classList.toggle("dark-theme");
-// } else if (currentTheme == "light") {
-//   document.body.classList.toggle("light-theme");
-// }
-
+//Sets the dark theme
 function setPageDarkTheme() {
-  let currentTheme = getOSPreference();
-  if (currentTheme === "dark") {
-    // ...then apply the .light-theme class to override those styles
-    document.body.classList.toggle("light-theme");
-    // Otherwise...
+  let currentTheme = localStorage.getItem("theme");
+  if (currentTheme === "light" || null) {
+    document.body.classList.toggle("dark-theme");
   } else {
-    // ...apply the .dark-theme class to override the default light styles
     document.body.classList.toggle("dark-theme");
   }
   let theme = document.body.classList.contains("dark-theme") ? "dark" : "light";
@@ -22,36 +20,17 @@ function setPageDarkTheme() {
   return theme;
 }
 
-function getOSPreference() {
-  if (!window.matchMedia) return "light";
-  const isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
-  const isLightMode = window.matchMedia(
-    "(prefers-color-scheme: light)"
-  ).matches;
-  const isNotSpecified = window.matchMedia(
-    "(prefers-color-scheme: no-preference)"
-  ).matches;
-  const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified;
-  let mode;
-
-  if (isLightMode) {
-    mode = "light";
-  }
-
-  if (isDarkMode) {
-    mode = "dark";
-  }
-
-  if (isNotSpecified || hasNoSupport) {
-    mode = "light";
-  }
-  return mode;
-}
-
+//Receives message from background whe user clicks on icon to set or unset dark mode
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  console.log("Message from background", message);
-  if (message.theme === "change") {
+  if (message.action === "changeTheme") {
     let theme = setPageDarkTheme();
     sendResponse({ theme: theme });
+  }
+});
+
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.action === "changeIcon") {
+    const currentTheme = localStorage.getItem("theme");
+    sendResponse({ theme: currentTheme });
   }
 });

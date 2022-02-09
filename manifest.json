@@ -1,7 +1,7 @@
 {
   "name": "Go dark",
-  "description": "A nice extension for turning dark mode on",
-  "version": "1",
+  "description": "A nice extension for turning a special dark mode on. Made for Stackoverflow and Google only",
+  "version": "1.0.0",
   "manifest_version": 3,
   "background": {
     "service_worker": "background.js"
@@ -13,14 +13,15 @@
       "js": ["content-script.js"]
     }
   ],
-  "permissions": ["activeTab", "storage", "scripting"],
+  "permissions": ["activeTab", "storage"],
   "host_permissions": ["https://*/"],
   "action": {
     "default_icon": {
-      "16": "/images/icon_16.png",
-      "48": "/images/icon_48.png",
-      "128": "/images/icon_128.png"
-    }
+      "16": "/images/sun_16px.png",
+      "48": "/images/sun_48px.png",
+      "128": "/images/sun_128px.png"
+    },
+    "default_title": "Click me"
   },
   "icons": {
     "16": "/images/icon_16.png",
